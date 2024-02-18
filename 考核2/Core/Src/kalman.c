@@ -101,10 +101,10 @@ void Angle_Calcu(void)
 
 
 //卡尔曼参数
-float Q_angle = 0.5;		//角度数据置信度，角度噪声的协方差
-float Q_gyro  = 0.5;		//角速度数据置信度，角速度噪声的协方差
-float R_angle = 0.005;		//加速度计测量噪声的协方差
-float dt      = 0.01;		//滤波算法计算周期，由定时器定时20ms
+float Q_angle = 0.005;		//角度数据置信度，角度噪声的协方差
+float Q_gyro  = 0.008;		//角速度数据置信度，角速度噪声的协方差
+float R_angle = 0.00015;		//加速度计测量噪声的协方差
+float dt      = 0.008;		//滤波算法计算周期，由定时器定时20ms
 char  C_0     = 1;			//H矩阵值
 float Q_bias, Angle_err;	//Q_bias:陀螺仪的偏差  Angle_err:角度偏量
 float PCt_0, PCt_1, E;		//计算的过程量
