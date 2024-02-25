@@ -49,13 +49,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-char   flag_buff[1];
+char   flag_buff[1];//标志位数据缓存区
 uint8_t   flag = 0 ; //0: speed  1:angle
 int16_t   cnt = 0;
-int16_t	  deviation_angle = 180 ;
-int16_t	  deviation_speed = 200 ;
-int16_t  target_yaw_speed = 40;
-float     target_yaw_angle = 40;
+int16_t	  deviation_angle = 180 ;//角度偏移量
+int16_t	  deviation_speed = 200 ;//速度偏移量
+int16_t  target_yaw_speed = 40;//目标角度
+float     target_yaw_angle = 40;//目标速度
 float     now_yaw_angle;
 /* USER CODE END PV */
 
@@ -111,35 +111,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  now_yaw_angle = (float)(motor_chassis[0].ecd - 0)/8191.0f * 360.0f;//���㵱ǰ�ĽǶȣ�0-360�㣩
 
-//��Ծ�ź�ģ��
-	  cnt++;
-	  if(cnt >= 256)
-	  {
-		  cnt = 0 ;
-		  target_yaw_angle += (float)deviation_angle;
-		  target_yaw_speed += deviation_speed;
-		  deviation_speed = - deviation_speed ;
-		  deviation_angle = - deviation_angle ;
-
-	  }
-
-	  if(flag == 0)
-	  {
-		  pid_calc(&gimbal_yaw_speed_pid,target_yaw_speed, (motor_chassis[0]).speed_rpm);//�ٶȻ�
-		  CAN_cmd_gimbal(gimbal_yaw_speed_pid.output,0, 0, 0);//�ٶȻ�
-		  printf(" %f, %d ,%d \r\n",gimbal_yaw_speed_pid.output,(motor_chassis[0]).speed_rpm,target_yaw_speed);
-	  }
-	  else
-	  {
-		 pid_calc(&gimbal_yaw_angle_pid,target_yaw_angle, now_yaw_angle);//�ǶȻ�
-		 CAN_cmd_gimbal(gimbal_yaw_angle_pid.output,0, 0, 0);//�ǶȻ�
-		 printf("%f ,%f , %f \r\n",gimbal_yaw_angle_pid.output,now_yaw_angle,target_yaw_angle);
-	  }
-
-
-
+	CAN_cmd_gimbal(5000,0, 0, 0);//向1号电机发送电压数据
+//打印各个信息
 	 printf("ecd,speed_rpm,given_current,temperate:%d,%d,%d,%d \r\n", (motor_chassis[0]).ecd, (motor_chassis[0]).speed_rpm, (motor_chassis[0]).given_current, (motor_chassis[0]).temperate);
     /* USER CODE END WHILE */
 
