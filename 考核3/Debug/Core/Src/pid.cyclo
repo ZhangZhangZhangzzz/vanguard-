@@ -1,0 +1,5 @@
+../Core/Src/pid.c:14:6:pid_init	1
+../Core/Src/pid.c:28:6:LIMIT_MIN_MAX	3
+../Core/Src/pid.c:36:7:pid_calc	1
+../Core/Src/pid.c:56:6:gimbal_PID_init	1
+../Core/Src/pid.c:63:8:msp	1

@@ -1,0 +1,6 @@
+../Core/Src/CAN_receive.c:61:6:HAL_CAN_RxFifo0MsgPendingCallback	2
+../Core/Src/CAN_receive.c:107:6:CAN_cmd_gimbal	1
+../Core/Src/CAN_receive.c:203:24:get_yaw_gimbal_motor_measure_point	1
+../Core/Src/CAN_receive.c:218:24:get_pitch_gimbal_motor_measure_point	1
+../Core/Src/CAN_receive.c:234:24:get_trigger_motor_measure_point	1
+../Core/Src/CAN_receive.c:250:24:get_chassis_motor_measure_point	1

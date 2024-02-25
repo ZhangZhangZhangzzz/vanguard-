@@ -95,16 +95,18 @@ void Angle_Calcu(void)
 	Yaw();
 
 	//处理后欧拉角打印
-	Printf("Roll,Pitch : %f,%f \r\n",Angle_X_Final,Angle_Y_Final);
+	Printf("Roll,Pitch : %f,%f,%f,%f \r\n",Angle_X_Final,Angle_Y_Final,Angle_x_temp,Angle_y_temp);
 
 }
 
 
 //卡尔曼参数
-float Q_angle = 0.005;		//角度数据置信度，角度噪声的协方差
-float Q_gyro  = 0.005;		//角速度数据置信度，角速度噪声的协方差
-float R_angle = 0.0001;		//加速度计测量噪声的协方差
-float dt      = 0.001;		//滤波算法计算周期，由定时器定时20ms
+// Q越大，K越大，越相信观测值 Q越小，K越小，越相信预测值
+// R越大，K越小，越相信预测值 R越小，K越大，越相信观测值
+float Q_angle = 0.008;		//角度数据置信度，角度噪声的协方差（过程噪声方差）
+float Q_gyro  = 0.008;		//角速度数据置信度，角速度噪声的协方差（过程噪声方差）
+float R_angle = 0.0001	;	//加速度计测量噪声的协方差（观测噪声方差）
+float dt      = 0.008;		//滤波算法计算周期，由定时器定时20ms
 char  C_0     = 1;			//H矩阵值
 float Q_bias, Angle_err;	//Q_bias:陀螺仪的偏差  Angle_err:角度偏量
 float PCt_0, PCt_1, E;		//计算的过程量
@@ -211,7 +213,7 @@ void Yaw (void)
 			if(Angle_Z_Final > 360) Angle_Z_Final -= 360 ;
 			if(Angle_Z_Final <-360) Angle_Z_Final += 360 ;
 
-			Printf("Yaw: %f \r\n,",Angle_Z_Final);
+			//Printf("Yaw: %f \r\n,",Angle_Z_Final);
 		}
 
 

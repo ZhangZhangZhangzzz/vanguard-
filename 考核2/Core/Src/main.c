@@ -105,7 +105,7 @@ int main(void)
 
 	  Angle_Calcu();
 
-	  Printf("Accle_X_Y_Z,Gyro_X_Y_Z: %d ,%d ,%d ,%d ,%d ,%d \r\n",IMU_Data.Accel_X,IMU_Data.Accel_Y,IMU_Data.Accel_Z,IMU_Data.Gyro_X,IMU_Data.Gyro_Y,IMU_Data.Gyro_Z);
+//	  Printf("Accle_X_Y_Z,Gyro_X_Y_Z: %d ,%d ,%d ,%d ,%d ,%d \r\n",IMU_Data.Accel_X,IMU_Data.Accel_Y,IMU_Data.Accel_Z,IMU_Data.Gyro_X,IMU_Data.Gyro_Y,IMU_Data.Gyro_Z);
 
 
     /* USER CODE END WHILE */

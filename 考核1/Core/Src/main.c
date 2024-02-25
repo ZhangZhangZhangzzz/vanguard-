@@ -45,7 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-char ReceiveData[RX_DATA_MAX];//接收数据的数组
+char ReceiveData[RX_DATA_MAX];
 extern DMA_HandleTypeDef hdma_usart1_rx;
 uint16_t i;
 /* USER CODE END PV */
@@ -58,7 +58,6 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//回调函数
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
 	if(huart == &huart1)

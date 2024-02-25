@@ -49,13 +49,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-char   flag_buff[1];//æ ‡å¿—ä½æ•°æ®ç¼“å­˜åŒº
+char   flag_buff[1];//±êÖ¾Î»Êý¾Ý»º´æÇø
 uint8_t   flag = 0 ; //0: speed  1:angle
 int16_t   cnt = 0;
-int16_t	  deviation_angle = 180 ;//è§’åº¦åç§»é‡
-int16_t	  deviation_speed = 200 ;//é€Ÿåº¦åç§»é‡
-int16_t  target_yaw_speed = 40;//ç›®æ ‡è§’åº¦
-float     target_yaw_angle = 40;//ç›®æ ‡é€Ÿåº¦
+int16_t	  deviation_angle = 180 ;//½Ç¶ÈÆ«ÒÆÁ¿
+int16_t	  deviation_speed = 200 ;//ËÙ¶ÈÆ«ÒÆÁ¿
+int16_t  target_yaw_speed = 40;//Ä¿±êËÙ¶È
+float     target_yaw_angle = 40;//Ä¿±ê½Ç¶È
 float     now_yaw_angle;
 /* USER CODE END PV */
 
@@ -111,9 +111,35 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  now_yaw_angle = (float)(motor_chassis[0].ecd - 0)/8191.0f * 360.0f;//»»Ëãµ±Ç°½Ç¶È0-360¡ã
 
-	CAN_cmd_gimbal(5000,0, 0, 0);//å‘1å·ç”µæœºå‘é€ç”µåŽ‹æ•°æ®
-//æ‰“å°å„ä¸ªä¿¡æ¯
+//Ä£ÄâÔ½½×ÐÅºÅ
+	  cnt++;
+	  if(cnt >= 256)
+	  {
+		  cnt = 0 ;
+		  target_yaw_angle += (float)deviation_angle;
+		  target_yaw_speed += deviation_speed;
+		  deviation_speed = - deviation_speed ;
+		  deviation_angle = - deviation_angle ;
+
+	  }
+//¸ù¾Ý²»ÓÃµÄ±êÖ¾Î»ÅÐ¶ÏÊµÏÖ½Ç¶È»·»¹ÊÇËÙ¶È»·
+	  if(flag == 0)
+	  {
+		  pid_calc(&gimbal_yaw_speed_pid,target_yaw_speed, (motor_chassis[0]).speed_rpm);//ï¿½Ù¶È»ï¿½
+		  CAN_cmd_gimbal(gimbal_yaw_speed_pid.output,0, 0, 0);//ï¿½Ù¶È»ï¿½
+		  printf(" %f, %d ,%d \r\n",gimbal_yaw_speed_pid.output,(motor_chassis[0]).speed_rpm,target_yaw_speed);
+	  }
+	  else
+	  {
+		 pid_calc(&gimbal_yaw_angle_pid,target_yaw_angle, now_yaw_angle);//ï¿½Ç¶È»ï¿½
+		 CAN_cmd_gimbal(gimbal_yaw_angle_pid.output,0, 0, 0);//ï¿½Ç¶È»ï¿½
+		 printf("%f ,%f , %f \r\n",gimbal_yaw_angle_pid.output,now_yaw_angle,target_yaw_angle);
+	  }
+
+
+
 	 printf("ecd,speed_rpm,given_current,temperate:%d,%d,%d,%d \r\n", (motor_chassis[0]).ecd, (motor_chassis[0]).speed_rpm, (motor_chassis[0]).given_current, (motor_chassis[0]).temperate);
     /* USER CODE END WHILE */
 
